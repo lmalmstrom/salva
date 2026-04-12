@@ -1,6 +1,10 @@
+<app-location-modal
+  *ngIf="!location"
+  (locationSelected)="onLocationSelected($event)">
+</app-location-modal>
 <div class="container">
   <div class="header">
-    <h1>Saldo</h1>
+    <h1>Saldo {{location}}</h1>
     <div class="header-btns">
       <button (click)="toggleEdit()">{{ editMode ? 'Valmis' : 'Muokkaa' }}</button>
       <button (click)="resetAll()">Nollaa</button>

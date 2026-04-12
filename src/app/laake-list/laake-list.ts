@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Laakkeet, Laake } from '../laake';
+import { LocationModalComponent } from '../location-modal/location-modal';
 
 interface LaakeUI extends Laake {
   status: 'default' | 'ok' | 'puute';
@@ -14,7 +15,7 @@ const currentYear = new Date().getFullYear();
 @Component({
   selector: 'app-laake-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LocationModalComponent],
   templateUrl: './laake-list.html',
   styleUrl: './laake-list.scss'
 })
@@ -22,7 +23,7 @@ export class LaakeListComponent implements OnInit {
   private laakeService = inject(Laakkeet);
   private cdr = inject(ChangeDetectorRef)
 
-  location = 'home';
+  location = '';
   editMode = false;
   laakkeet: LaakeUI[] = [];
   uudetLaakkeet: LaakeUI[] = [];
@@ -31,6 +32,7 @@ export class LaakeListComponent implements OnInit {
 
   expYears = Array.from({ length: 8 }, (_, i) => currentYear + i);
   ngOnInit() {
+    /*
     this.laakeService.getLaakkeet(this.location).subscribe(data => {
       this.laakkeet = data.map(l => ({
         ...l,
@@ -39,7 +41,7 @@ export class LaakeListComponent implements OnInit {
         expOpen: false
       }));
       this.cdr.detectChanges();
-    });
+    });*/
   }
 
   getGroup(group: string) {
@@ -166,6 +168,19 @@ export class LaakeListComponent implements OnInit {
   poistaUusi(laake: LaakeUI) {
     this.uudetLaakkeet = this.uudetLaakkeet.filter(l => l !== laake);
     this.cdr.detectChanges();
+  }
+
+  onLocationSelected(loc: string) {
+    this.location = loc;
+    this.laakeService.getLaakkeet(this.location).subscribe(data => {
+      this.laakkeet = data.map(l => ({
+        ...l,
+        status: l.status ?? 'default',
+        tarvittava: l.tarvittava ?? 0,
+        expOpen: false
+      }));
+      this.cdr.detectChanges();
+    });
   }
 }
 

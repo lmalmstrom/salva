@@ -1,0 +1,85 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  border: 0.5px solid #e0e0e0;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 360px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.modal-sub {
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 1.25rem;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #aaa;
+  margin: 0 0 6px;
+}
+
+.suggestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9f9f9;
+  border: 0.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+
+  .suggestion-name { font-size: 15px; font-weight: 500; }
+  .suggestion-sub { font-size: 12px; color: #888; }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0.75rem 0;
+
+  .divider-line { flex: 1; height: 0.5px; background: #e0e0e0; }
+  .divider-text { font-size: 12px; color: #aaa; }
+}
+
+.dropdown-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 0.75rem;
+
+  select { flex: 1; font-size: 14px; height: 36px; }
+  button { font-size: 13px; padding: 0 14px; }
+}
+
+.add-row {
+  display: flex;
+  gap: 8px;
+
+  input { flex: 1; font-size: 14px; height: 36px; }
+  button { font-size: 13px; padding: 0 14px; }
+}

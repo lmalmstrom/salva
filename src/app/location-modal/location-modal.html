@@ -1,0 +1,44 @@
+<div class="overlay">
+  <div class="modal">
+    <p class="modal-title">Sijainti</p>
+
+    <ng-container *ngIf="lastLocation">
+      <p class="section-label">Viimeksi käytetty</p>
+      <div class="suggestion">
+        <div>
+          <div class="suggestion-name">{{ lastLocation }}</div>
+          <div class="suggestion-sub">Käytetty viimeksi tällä laitteella</div>
+        </div>
+        <button (click)="select(lastLocation)">Valitse</button>
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">tai valitse muu</span>
+        <div class="divider-line"></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="locations.length > 0">
+      <p class="section-label">Tallennetut sijainnit</p>
+      <div class="dropdown-row">
+        <select [(ngModel)]="selectedLocation">
+          <option *ngFor="let loc of locations" [value]="loc">{{ loc }}</option>
+        </select>
+        <button (click)="select(selectedLocation)">Valitse</button>
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">tai lisää uusi</span>
+        <div class="divider-line"></div>
+      </div>
+    </ng-container>
+
+    <p class="section-label">Uusi sijainti</p>
+    <div class="add-row">
+      <input type="text" [(ngModel)]="newLocation" placeholder="Sijaintisi nimi" />
+      <button (click)="addLocation()">Lisää</button>
+    </div>
+  </div>
+</div>
