@@ -37,6 +37,8 @@ export class LaakeListComponent implements OnInit {
       }));
       this.cdr.detectChanges();
     });
+
+    window.addEventListener('beforeunload', () => this.save());
   }
 
   getGroup(group: string) {
@@ -45,9 +47,14 @@ export class LaakeListComponent implements OnInit {
 
   toggleStatus(laake: LaakeUI, val: 'ok' | 'puute') {
     laake.status = laake.status === val ? 'default' : val;
+    this.save();
   }
 
   toggleExpOpen(laake: LaakeUI) {
+    if (laake.expOpen) {
+      // closing the picker
+      this.save();
+    }
     laake.expOpen = !laake.expOpen;
   }
 
@@ -55,6 +62,7 @@ export class LaakeListComponent implements OnInit {
     laake.expMonth = '';
     laake.expYear = '';
     laake.expOpen = false;
+    this.save();
   }
 
   isExpired(expMonth: string, expYear: string): boolean {
@@ -63,6 +71,9 @@ export class LaakeListComponent implements OnInit {
     return new Date(parseInt(expYear), parseInt(expMonth) - 1, 1) < new Date(now.getFullYear(), now.getMonth(), 1);
   }
   toggleEdit() {
+    if (this.editMode) {
+      this.save();
+    }
     this.editMode = !this.editMode;
   }
 
