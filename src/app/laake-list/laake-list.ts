@@ -25,6 +25,7 @@ export class LaakeListComponent implements OnInit {
   location = 'home';
   editMode = false;
   laakkeet: LaakeUI[] = [];
+  uudetLaakkeet: LaakeUI[] = [];
 
   groups = ['asema', 'sairaala'];
 
@@ -76,13 +77,16 @@ export class LaakeListComponent implements OnInit {
     const now = new Date();
     return new Date(parseInt(expYear), parseInt(expMonth) - 1, 1) < new Date(now.getFullYear(), now.getMonth(), 1);
   }
+
   toggleEdit() {
     if (this.editMode) {
+      // move any remaining new medicines to main list
+      this.uudetLaakkeet.filter(l => l.nimi).forEach(l => this.laakkeet.push(l));
+      this.uudetLaakkeet = [];
       this.save();
     }
     this.editMode = !this.editMode;
   }
-
   resetAll() {
     this.laakkeet.forEach(l => {
       l.status = 'default';
@@ -125,4 +129,33 @@ export class LaakeListComponent implements OnInit {
       error: (err) => console.log('save error', err)
     });
   }
+
+  addLaake() {
+    this.uudetLaakkeet.push({
+      nimi: '',
+      minimimaara: '',
+      muoto: '',
+      mista: 'asema',
+      expMonth: '',
+      expYear: '',
+      status: 'default',
+      tarvittava: 0,
+      expOpen: false
+    });
+    this.cdr.detectChanges();
+  }
+
+  vahvistaLaake(laake: LaakeUI) {
+    if (!laake.nimi) return;
+    this.uudetLaakkeet = this.uudetLaakkeet.filter(l => l !== laake);
+    this.laakkeet.push(laake);
+    this.save();
+    this.cdr.detectChanges();
+  }
+
+  poistaUusi(laake: LaakeUI) {
+    this.uudetLaakkeet = this.uudetLaakkeet.filter(l => l !== laake);
+    this.cdr.detectChanges();
+  }
 }
+

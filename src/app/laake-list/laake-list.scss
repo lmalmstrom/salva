@@ -124,9 +124,44 @@
 
 .edit-row {
   display: flex;
-  gap: 6p
-}
+  gap: 6px;
+  margin-top: 10px;
+  align-items: center;
+  flex-wrap: wrap;
 
+  input, select {
+    font-size: 13px;
+    height: 34px;
+    min-width: 0;
+  }
+
+  input.name-input, input:first-of-type {
+    flex: 1;
+    min-width: 80px;
+    max-width: 140px;
+  }
+
+  input[type="number"] {
+    width: 44px;
+    flex: none;
+  }
+
+  input:not([type="number"]):not(:first-of-type) {
+    width: 80px;
+    flex: none;
+  }
+
+  select {
+    width: 80px;
+    flex: none;
+  }
+
+  button {
+    flex: none;
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+}
 .puute-summary {
   margin-bottom: 1rem;
 }
@@ -161,4 +196,22 @@
   font-weight: 500;
   min-width: 20px;
   text-align: center;
+}
+
+.nimi-input { flex: 1; min-width: 80px; }
+.min-input { width: 44px; }
+.muoto-input { width: 80px; }
+
+.add-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-style: dashed;
+  color: #888;
+  margin-top: 8px;
+
+  .add-label {
+    font-size: 14px;
+  }
 }

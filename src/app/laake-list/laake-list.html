@@ -8,16 +8,16 @@
   </div>
 
   <div class="puute-summary" *ngIf="getPuutteet().length > 0">
-  <ng-container *ngFor="let group of groups">
-    <ng-container *ngIf="getPuutteetByGroup(group).length > 0">
-      <div class="group-label">Tarvittavat — {{ group }}</div>
-      <div class="puute-row" *ngFor="let laake of getPuutteetByGroup(group)">
-        <span class="puute-nimi">{{ laake.nimi }}</span>
-        <span class="puute-mista">{{ laake.mista }}</span>
-        <span class="puute-maara">{{ laake.tarvittava }} {{ laake.muoto }}</span>
-      </div>
+    <ng-container *ngFor="let group of groups">
+      <ng-container *ngIf="getPuutteetByGroup(group).length > 0">
+        <div class="group-label">Tarvittavat — {{ group }}</div>
+        <div class="puute-row" *ngFor="let laake of getPuutteetByGroup(group)">
+          <span class="puute-nimi">{{ laake.nimi }}</span>
+          <span class="puute-mista">{{ laake.mista }}</span>
+          <span class="puute-maara">{{ laake.tarvittava }} {{ laake.muoto }}</span>
+        </div>
+      </ng-container>
     </ng-container>
-  </ng-container>
   </div>
 
   <ng-container *ngFor="let group of groups">
@@ -28,9 +28,7 @@
       [class.ok]="laake.status === 'ok'"
       [class.puute]="laake.status === 'puute'"
       [class.exp-warn]="laake.status === 'default' && isExpired(laake.expMonth, laake.expYear)">
-
       <div class="card-name">{{ laake.nimi }}</div>
-
       <ng-container *ngIf="!editMode">
         <div class="card-meta">
           Min: {{ laake.minimimaara }} {{ laake.muoto }}
@@ -38,7 +36,6 @@
             {{ laake.mista }}
           </span>
         </div>
-
         <div class="exp-row">
           <span class="exp-label">Exp</span>
           <ng-container *ngIf="!laake.expOpen">
@@ -72,7 +69,6 @@
             <button (click)="clearExp(laake)">Tyhjennä</button>
           </ng-container>
         </div>
-
         <div class="status-btns">
           <button (click)="toggleStatus(laake, 'ok')">OK</button>
           <button (click)="toggleStatus(laake, 'puute')">Puute</button>
@@ -83,12 +79,11 @@
           </ng-container>
         </div>
       </ng-container>
-
       <ng-container *ngIf="editMode">
         <div class="edit-row">
-          <input [(ngModel)]="laake.nimi" placeholder="Nimi" />
-          <input type="number" [(ngModel)]="laake.minimimaara" placeholder="Min" />
-          <input [(ngModel)]="laake.muoto" placeholder="Muoto" />
+          <input class="nimi-input" [(ngModel)]="laake.nimi" placeholder="Nimi" />
+          <input class="min-input" type="number" [(ngModel)]="laake.minimimaara" placeholder="Min" />
+          <input class="muoto-input" [(ngModel)]="laake.muoto" placeholder="Muoto" />
           <select [(ngModel)]="laake.mista">
             <option value="asema">asema</option>
             <option value="sairaala">sairaala</option>
@@ -96,7 +91,28 @@
           <button (click)="removeDrug(laake)">Poista</button>
         </div>
       </ng-container>
-
     </div>
   </ng-container>
-</div>>
+
+  <ng-container *ngIf="editMode">
+    <div class="card" *ngFor="let laake of uudetLaakkeet">
+      <div class="card-name">{{ laake.nimi || 'Uusi lääke' }}</div>
+      <div class="edit-row">
+        <input class="nimi-input" [(ngModel)]="laake.nimi" placeholder="Nimi" />
+        <input class="min-input" type="number" [(ngModel)]="laake.minimimaara" placeholder="Min" />
+        <input class="muoto-input" [(ngModel)]="laake.muoto" placeholder="Muoto" />
+        <select [(ngModel)]="laake.mista">
+          <option value="asema">asema</option>
+          <option value="sairaala">sairaala</option>
+        </select>
+        <button (click)="vahvistaLaake(laake)">Lisää</button>
+        <button (click)="poistaUusi(laake)">Poista</button>
+      </div>
+    </div>
+
+    <div class="card add-card" (click)="addLaake()">
+      <span class="add-label">+ Lisää lääke</span>
+    </div>
+  </ng-container>
+
+</div>
