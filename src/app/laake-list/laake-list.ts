@@ -98,9 +98,13 @@ export class LaakeListComponent implements OnInit {
     this.save();
     this.cdr.detectChanges();
   }
+
   removeDrug(laake: LaakeUI) {
+    const confirmed = confirm(`Poistetaanko ${laake.nimi}?`);
+    if (!confirmed) return;
     this.laakkeet = this.laakkeet.filter(l => l !== laake);
   }
+
   increaseAmount(laake: LaakeUI) {
     laake.tarvittava = (laake.tarvittava ?? 1) + 1;
     this.save();
