@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -13,6 +13,9 @@ import { environment } from '../../environments/environment';
 })
 export class LocationModalComponent implements OnInit {
   @Output() locationSelected = new EventEmitter<string>();
+
+  private cdr = inject(ChangeDetectorRef);
+
 
   private http = inject(HttpClient);
   private firebaseUrl = environment.firebaseUrl;
@@ -34,6 +37,7 @@ export class LocationModalComponent implements OnInit {
         if (!this.selectedLocation && this.locations.length > 0) {
           this.selectedLocation = this.locations[0];
         }
+        this.cdr.detectChanges();
       },
       error: () => this.locations = []
     });
