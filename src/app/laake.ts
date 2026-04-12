@@ -40,9 +40,10 @@ export class Laakkeet {
   }
 
   saveLaakkeet(location: string, laakkeet: Laake[]) {
+    const toSave = laakkeet.map(({ expOpen, ...rest }: any) => rest);
     return this.http.put(
       `${this.firebaseUrl}/${location}/laakkeet.json`,
-      laakkeet
+      { Laakkeet: toSave }
     );
   }
 }
