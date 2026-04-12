@@ -1,10 +1,11 @@
-<app-location-modal
-  *ngIf="!location"
-  (locationSelected)="onLocationSelected($event)">
-</app-location-modal>
 <div class="container">
+  <app-location-modal
+    *ngIf="!location"
+    (locationSelected)="onLocationSelected($event)">
+  </app-location-modal>
+
   <div class="header">
-    <h1>Saldo {{location}}</h1>
+    <h1>Saldo</h1>
     <div class="header-btns">
       <button (click)="toggleEdit()">{{ editMode ? 'Valmis' : 'Muokkaa' }}</button>
       <button (click)="resetAll()">Nollaa</button>
@@ -33,56 +34,56 @@
         [class.puute]="laake.status === 'puute'"
         [class.exp-warn]="laake.status === 'default' && isExpired(laake.expMonth, laake.expYear)"
         (click)="!editMode && toggleStatus(laake, 'ok')">
-        <div class="card-content">
-          <div class="card-left">
-            <div class="card-name">{{ laake.nimi }}</div>
-            <ng-container *ngIf="!editMode">
-              <div class="card-meta">
-                Min: {{ laake.minimimaara }} {{ laake.muoto }}
-                <span class="badge" [class.badge-asema]="laake.mista === 'asema'" [class.badge-sairaala]="laake.mista === 'sairaala'">
-                  {{ laake.mista }}
-                </span>
-              </div>
-              <div class="exp-row" (click)="$event.stopPropagation()">
-                <span class="exp-label">Exp</span>
-                <ng-container *ngIf="!laake.expOpen">
-                  <span *ngIf="laake.expMonth && laake.expYear" class="exp-value" (click)="toggleExpOpen(laake)">
-                    {{ laake.expMonth }}/{{ laake.expYear }}
-                  </span>
-                  <span *ngIf="!laake.expMonth || !laake.expYear" class="exp-empty" (click)="toggleExpOpen(laake)">
-                    Aseta päivä
-                  </span>
-                </ng-container>
-                <ng-container *ngIf="laake.expOpen">
-                  <select [(ngModel)]="laake.expMonth">
-                    <option value="">KK</option>
-                    <option value="1">01</option>
-                    <option value="2">02</option>
-                    <option value="3">03</option>
-                    <option value="4">04</option>
-                    <option value="5">05</option>
-                    <option value="6">06</option>
-                    <option value="7">07</option>
-                    <option value="8">08</option>
-                    <option value="9">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                  </select>
-                  <select [(ngModel)]="laake.expYear">
-                    <option value="">VVVV</option>
-                    <option *ngFor="let year of expYears" [value]="year">{{ year }}</option>
-                  </select>
-                  <button (click)="clearExp(laake)">Tyhjennä</button>
-                </ng-container>
-              </div>
-            </ng-container>
-          </div>
 
+        <div class="card-name">{{ laake.nimi }}</div>
+
+        <div class="card-middle">
+          <div class="card-meta">
+            <span>Min: {{ laake.minimimaara }} {{ laake.muoto }}</span>
+            <span>
+              <span class="badge" [class.badge-asema]="laake.mista === 'asema'" [class.badge-sairaala]="laake.mista === 'sairaala'">
+                {{ laake.mista }}
+              </span>
+            </span>
+          </div>
           <div class="card-right" *ngIf="!editMode">
             <button (click)="$event.stopPropagation(); toggleStatus(laake, 'ok')">OK</button>
             <button (click)="$event.stopPropagation(); toggleStatus(laake, 'puute')">Puute</button>
           </div>
+        </div>
+
+        <div class="exp-row" *ngIf="!editMode" (click)="$event.stopPropagation()">
+          <span class="exp-label">Exp</span>
+          <ng-container *ngIf="!laake.expOpen">
+            <span *ngIf="laake.expMonth && laake.expYear" class="exp-value" (click)="toggleExpOpen(laake)">
+              {{ laake.expMonth }}/{{ laake.expYear }}
+            </span>
+            <span *ngIf="!laake.expMonth || !laake.expYear" class="exp-empty" (click)="toggleExpOpen(laake)">
+              Aseta päivä
+            </span>
+          </ng-container>
+          <ng-container *ngIf="laake.expOpen">
+            <select [(ngModel)]="laake.expMonth">
+              <option value="">KK</option>
+              <option value="1">01</option>
+              <option value="2">02</option>
+              <option value="3">03</option>
+              <option value="4">04</option>
+              <option value="5">05</option>
+              <option value="6">06</option>
+              <option value="7">07</option>
+              <option value="8">08</option>
+              <option value="9">09</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+            </select>
+            <select [(ngModel)]="laake.expYear">
+              <option value="">VVVV</option>
+              <option *ngFor="let year of expYears" [value]="year">{{ year }}</option>
+            </select>
+            <button (click)="clearExp(laake)">Tyhjennä</button>
+          </ng-container>
         </div>
 
         <ng-container *ngIf="editMode">

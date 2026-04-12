@@ -1,9 +1,8 @@
 .container {
-  padding: 1rem;
+  padding: 0.5rem;
   max-width: 480px;
   margin: 0 auto;
 }
-
 .header {
   display: flex;
   align-items: center;
@@ -57,72 +56,76 @@
 
 .card {
   flex: 1;
+  min-width: 0;
   background: #fff;
   border: 0.5px solid #e0e0e0;
   border-radius: 12px;
   padding: 0.875rem 1rem;
   transition: background 0.2s;
+  cursor: pointer;
 
   &.ok { background: #EAF3DE; border-color: #C0DD97; }
   &.puute { background: #FCEBEB; border-color: #F7C1C1; }
   &.exp-warn { background: #FAEEDA; border-color: #FAC775; }
 }
 
-.card-content {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.card-left {
-  flex: 1;
-  min-width: 0;
-}
-
 .card-name {
   font-size: 15px;
   font-weight: 500;
+  margin-bottom: 6px;
+  word-break: break-word;
+}
+
+.card-middle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
 }
 
 .card-meta {
+  flex: 1;
+  min-width: 0;
   font-size: 13px;
   color: #666;
-  margin-top: 2px;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .badge {
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 6px;
+  display: inline-block;
 
   &-asema { background: #EEEDFE; color: #3C3489; }
   &-sairaala { background: #E6F1FB; color: #0C447C; }
 }
 
+.card-right {
+  flex: 0 0 126px;
+  display: flex;
+  gap: 6px;
+
+  button {
+    flex: 1;
+    padding: 8px 0;
+    font-size: 13px;
+  }
+}
+
 .exp-row {
   display: flex;
   gap: 6px;
-  margin-top: 10px;
   align-items: center;
 
   .exp-label { font-size: 13px; color: #666; min-width: 28px; }
   .exp-value { font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
   .exp-empty { font-size: 13px; color: #aaa; cursor: pointer; }
-}
 
-.card-right {
-  flex-shrink: 0;
-  display: flex;
-  gap: 6px;
-
-  button {
-    width: 60px;
-    padding: 8px 0;
-    font-size: 13px;
-  }
+  select { font-size: 13px; height: 32px; }
+  button { font-size: 12px; padding: 4px 8px; }
 }
 
 .amount-right {
@@ -131,6 +134,7 @@
   align-items: stretch;
   gap: 4px;
   flex-shrink: 0;
+  width: 62px;
 }
 
 .pm-col {
