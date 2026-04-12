@@ -91,7 +91,9 @@ export class LaakeListComponent implements OnInit {
   }
 
   save() {
-    this.laakeService.saveLaakkeet(this.location, this.laakkeet).subscribe({
+    if (!this.laakkeet.length) return;
+    const toSave = this.laakkeet.map(({ expOpen, ...rest }: any) => rest);
+    this.laakeService.saveLaakkeet(this.location, toSave).subscribe({
       next: () => console.log('saved'),
       error: (err) => console.log('save error', err)
     });
