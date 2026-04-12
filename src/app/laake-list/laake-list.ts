@@ -147,12 +147,22 @@ export class LaakeListComponent implements OnInit {
 
   vahvistaLaake(laake: LaakeUI) {
     if (!laake.nimi) return;
+
+    const exists = this.laakkeet.some(
+      l => l.nimi.toLowerCase() === laake.nimi.toLowerCase()
+    );
+
+    if (exists) {
+      alert(`${laake.nimi} on jo listalla`);
+      return;
+    }
+
     this.uudetLaakkeet = this.uudetLaakkeet.filter(l => l !== laake);
     this.laakkeet.push(laake);
+    this.laakkeet.sort((a, b) => a.nimi.localeCompare(b.nimi, 'fi'));
     this.save();
     this.cdr.detectChanges();
   }
-
   poistaUusi(laake: LaakeUI) {
     this.uudetLaakkeet = this.uudetLaakkeet.filter(l => l !== laake);
     this.cdr.detectChanges();
