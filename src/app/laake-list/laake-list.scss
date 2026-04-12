@@ -133,17 +133,25 @@
 
 .puute-row {
   display: flex;
-  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
   padding: 6px 0;
   border-bottom: 0.5px solid #f0f0f0;
   font-size: 14px;
 
+  .puute-nimi {
+    flex: 2;
+  }
+
   .puute-mista {
+    flex: 1;
+    text-align: center;
     color: #888;
   }
 
   .puute-maara {
-    margin-left: auto;
+    flex: 1;
+    text-align: right;
     font-weight: 500;
   }
 }

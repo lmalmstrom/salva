@@ -111,6 +111,10 @@ export class LaakeListComponent implements OnInit {
 
   getPuutteet() {
     return this.laakkeet.filter(l => l.status === 'puute');
+
+  }
+  getPuutteetByGroup(group: string) {
+    return this.laakkeet.filter(l => l.status === 'puute' && l.mista === group);
   }
 
   save() {
