@@ -78,4 +78,11 @@ export class LaakeListComponent implements OnInit {
   removeDrug(laake: LaakeUI) {
     this.laakkeet = this.laakkeet.filter(l => l !== laake);
   }
+
+  save() {
+    this.laakeService.saveLaakkeet(this.location, this.laakkeet).subscribe({
+      next: () => console.log('saved'),
+      error: (err) => console.log('save error', err)
+    });
+  }
 }

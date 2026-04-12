@@ -38,4 +38,11 @@ export class Laakkeet {
       })
     );
   }
+
+  saveLaakkeet(location: string, laakkeet: Laake[]) {
+    return this.http.put(
+      `${this.firebaseUrl}/${location}/laakkeet.json`,
+      laakkeet
+    );
+  }
 }
