@@ -12,6 +12,7 @@ export interface Laake {
   expMonth: string;
   expYear: string;
   status?: 'default' | 'ok' | 'puute';
+  tarvittava: number;
 }
 
 @Injectable({ providedIn: 'root' })

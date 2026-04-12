@@ -126,3 +126,31 @@
   display: flex;
   gap: 6p
 }
+
+.puute-summary {
+  margin-bottom: 1rem;
+}
+
+.puute-row {
+  display: flex;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 0.5px solid #f0f0f0;
+  font-size: 14px;
+
+  .puute-mista {
+    color: #888;
+  }
+
+  .puute-maara {
+    margin-left: auto;
+    font-weight: 500;
+  }
+}
+
+.tarvittava {
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 20px;
+  text-align: center;
+}

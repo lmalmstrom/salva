@@ -6,6 +6,7 @@ import { Laakkeet, Laake } from '../laake';
 interface LaakeUI extends Laake {
   status: 'default' | 'ok' | 'puute';
   expOpen: boolean;
+  tarvittava: number;
 }
 
 const currentYear = new Date().getFullYear();
@@ -33,12 +34,11 @@ export class LaakeListComponent implements OnInit {
       this.laakkeet = data.map(l => ({
         ...l,
         status: l.status ?? 'default',
+        tarvittava: l.tarvittava ?? 0,
         expOpen: false
       }));
       this.cdr.detectChanges();
     });
-
-    window.addEventListener('beforeunload', () => this.save());
   }
 
   getGroup(group: string) {
@@ -46,10 +46,16 @@ export class LaakeListComponent implements OnInit {
   }
 
   toggleStatus(laake: LaakeUI, val: 'ok' | 'puute') {
-    laake.status = laake.status === val ? 'default' : val;
+    if (laake.status === val) {
+      laake.status = 'default';
+      laake.tarvittava = 0;
+    } else {
+      laake.status = val;
+      if (val === 'puute') laake.tarvittava = 1;
+    }
     this.save();
-  }
 
+  }
   toggleExpOpen(laake: LaakeUI) {
     if (laake.expOpen) {
       // closing the picker
@@ -88,6 +94,23 @@ export class LaakeListComponent implements OnInit {
 
   removeDrug(laake: LaakeUI) {
     this.laakkeet = this.laakkeet.filter(l => l !== laake);
+  }
+  increaseAmount(laake: LaakeUI) {
+    laake.tarvittava = (laake.tarvittava ?? 1) + 1;
+    this.save();
+  }
+
+  decreaseAmount(laake: LaakeUI) {
+    laake.tarvittava = (laake.tarvittava ?? 1) - 1;
+    if (laake.tarvittava <= 0) {
+      laake.status = 'default';
+      laake.tarvittava = 0;
+    }
+    this.save();
+  }
+
+  getPuutteet() {
+    return this.laakkeet.filter(l => l.status === 'puute');
   }
 
   save() {
