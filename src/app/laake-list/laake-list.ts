@@ -87,15 +87,15 @@ export class LaakeListComponent implements OnInit {
     }
     this.editMode = !this.editMode;
   }
+
   resetAll() {
     this.laakkeet.forEach(l => {
       l.status = 'default';
-      l.expMonth = '';
-      l.expYear = '';
-      l.expOpen = false;
+      l.tarvittava = 0;
     });
+    this.save();
+    this.cdr.detectChanges();
   }
-
   removeDrug(laake: LaakeUI) {
     this.laakkeet = this.laakkeet.filter(l => l !== laake);
   }

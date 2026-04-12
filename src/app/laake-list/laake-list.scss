@@ -31,28 +31,52 @@
   margin: 1.25rem 0 0.4rem;
 }
 
+.puute-summary {
+  margin-bottom: 1rem;
+}
+
+.puute-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 0.5px solid #f0f0f0;
+  font-size: 14px;
+
+  .puute-nimi { flex: 2; }
+  .puute-mista { flex: 1; text-align: center; color: #888; }
+  .puute-maara { flex: 1; text-align: right; font-weight: 500; }
+}
+
+.card-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
 .card {
+  flex: 1;
   background: #fff;
   border: 0.5px solid #e0e0e0;
   border-radius: 12px;
   padding: 0.875rem 1rem;
-  margin-bottom: 8px;
   transition: background 0.2s;
 
-  &.ok {
-    background: #EAF3DE;
-    border-color: #C0DD97;
-  }
+  &.ok { background: #EAF3DE; border-color: #C0DD97; }
+  &.puute { background: #FCEBEB; border-color: #F7C1C1; }
+  &.exp-warn { background: #FAEEDA; border-color: #FAC775; }
+}
 
-  &.puute {
-    background: #FCEBEB;
-    border-color: #F7C1C1;
-  }
+.card-content {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
 
-  &.exp-warn {
-    background: #FAEEDA;
-    border-color: #FAC775;
-  }
+.card-left {
+  flex: 1;
+  min-width: 0;
 }
 
 .card-name {
@@ -74,15 +98,8 @@
   padding: 2px 8px;
   border-radius: 6px;
 
-  &-asema {
-    background: #EEEDFE;
-    color: #3C3489;
-  }
-
-  &-sairaala {
-    background: #E6F1FB;
-    color: #0C447C;
-  }
+  &-asema { background: #EEEDFE; color: #3C3489; }
+  &-sairaala { background: #E6F1FB; color: #0C447C; }
 }
 
 .exp-row {
@@ -91,35 +108,56 @@
   margin-top: 10px;
   align-items: center;
 
-  .exp-label {
-    font-size: 13px;
-    color: #666;
-    min-width: 28px;
-  }
+  .exp-label { font-size: 13px; color: #666; min-width: 28px; }
+  .exp-value { font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .exp-empty { font-size: 13px; color: #aaa; cursor: pointer; }
+}
 
-  .exp-value {
-    font-size: 13px;
-    cursor: pointer;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
+.card-right {
+  flex-shrink: 0;
+  display: flex;
+  gap: 6px;
 
-  .exp-empty {
+  button {
+    width: 60px;
+    padding: 8px 0;
     font-size: 13px;
-    color: #aaa;
-    cursor: pointer;
-  }
-
-  input[type="month"] {
-    font-size: 13px;
-    height: 34px;
   }
 }
 
-.status-btns {
+.amount-right {
   display: flex;
-  gap: 6px;
-  margin-top: 8px;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.pm-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  button {
+    width: 28px;
+    flex: 1;
+    font-size: 15px;
+    padding: 0;
+  }
+}
+
+.tarvittava {
+  font-size: 28px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  min-width: 24px;
+  justify-content: center;
+}
+
+.amount-spacer {
+  width: 62px;
+  flex-shrink: 0;
 }
 
 .edit-row {
@@ -135,67 +173,8 @@
     min-width: 0;
   }
 
-  input.name-input, input:first-of-type {
-    flex: 1;
-    min-width: 80px;
-    max-width: 140px;
-  }
-
-  input[type="number"] {
-    width: 44px;
-    flex: none;
-  }
-
-  input:not([type="number"]):not(:first-of-type) {
-    width: 80px;
-    flex: none;
-  }
-
-  select {
-    width: 80px;
-    flex: none;
-  }
-
-  button {
-    flex: none;
-    font-size: 13px;
-    padding: 4px 8px;
-  }
-}
-.puute-summary {
-  margin-bottom: 1rem;
-}
-
-.puute-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 0;
-  border-bottom: 0.5px solid #f0f0f0;
-  font-size: 14px;
-
-  .puute-nimi {
-    flex: 2;
-  }
-
-  .puute-mista {
-    flex: 1;
-    text-align: center;
-    color: #888;
-  }
-
-  .puute-maara {
-    flex: 1;
-    text-align: right;
-    font-weight: 500;
-  }
-}
-
-.tarvittava {
-  font-size: 14px;
-  font-weight: 500;
-  min-width: 20px;
-  text-align: center;
+  select { width: 80px; flex: none; }
+  button { flex: none; font-size: 13px; padding: 4px 8px; }
 }
 
 .nimi-input { flex: 1; min-width: 80px; }
@@ -210,8 +189,7 @@
   border-style: dashed;
   color: #888;
   margin-top: 8px;
+  min-height: 48px;
 
-  .add-label {
-    font-size: 14px;
-  }
+  .add-label { font-size: 14px; }
 }

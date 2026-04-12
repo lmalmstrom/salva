@@ -22,75 +22,87 @@
 
   <ng-container *ngFor="let group of groups">
     <div class="group-label">{{ group }}</div>
-    <div
-      *ngFor="let laake of getGroup(group)"
-      class="card"
-      [class.ok]="laake.status === 'ok'"
-      [class.puute]="laake.status === 'puute'"
-      [class.exp-warn]="laake.status === 'default' && isExpired(laake.expMonth, laake.expYear)">
-      <div class="card-name">{{ laake.nimi }}</div>
-      <ng-container *ngIf="!editMode">
-        <div class="card-meta">
-          Min: {{ laake.minimimaara }} {{ laake.muoto }}
-          <span class="badge" [class.badge-asema]="laake.mista === 'asema'" [class.badge-sairaala]="laake.mista === 'sairaala'">
-            {{ laake.mista }}
-          </span>
+    <div class="card-wrap" *ngFor="let laake of getGroup(group)">
+      <div
+        class="card"
+        [class.ok]="laake.status === 'ok'"
+        [class.puute]="laake.status === 'puute'"
+        [class.exp-warn]="laake.status === 'default' && isExpired(laake.expMonth, laake.expYear)"
+        (click)="!editMode && toggleStatus(laake, 'ok')">
+        <div class="card-content">
+          <div class="card-left">
+            <div class="card-name">{{ laake.nimi }}</div>
+            <ng-container *ngIf="!editMode">
+              <div class="card-meta">
+                Min: {{ laake.minimimaara }} {{ laake.muoto }}
+                <span class="badge" [class.badge-asema]="laake.mista === 'asema'" [class.badge-sairaala]="laake.mista === 'sairaala'">
+                  {{ laake.mista }}
+                </span>
+              </div>
+              <div class="exp-row" (click)="$event.stopPropagation()">
+                <span class="exp-label">Exp</span>
+                <ng-container *ngIf="!laake.expOpen">
+                  <span *ngIf="laake.expMonth && laake.expYear" class="exp-value" (click)="toggleExpOpen(laake)">
+                    {{ laake.expMonth }}/{{ laake.expYear }}
+                  </span>
+                  <span *ngIf="!laake.expMonth || !laake.expYear" class="exp-empty" (click)="toggleExpOpen(laake)">
+                    Aseta päivä
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="laake.expOpen">
+                  <select [(ngModel)]="laake.expMonth">
+                    <option value="">KK</option>
+                    <option value="1">01</option>
+                    <option value="2">02</option>
+                    <option value="3">03</option>
+                    <option value="4">04</option>
+                    <option value="5">05</option>
+                    <option value="6">06</option>
+                    <option value="7">07</option>
+                    <option value="8">08</option>
+                    <option value="9">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                  <select [(ngModel)]="laake.expYear">
+                    <option value="">VVVV</option>
+                    <option *ngFor="let year of expYears" [value]="year">{{ year }}</option>
+                  </select>
+                  <button (click)="clearExp(laake)">Tyhjennä</button>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+
+          <div class="card-right" *ngIf="!editMode">
+            <button (click)="$event.stopPropagation(); toggleStatus(laake, 'ok')">OK</button>
+            <button (click)="$event.stopPropagation(); toggleStatus(laake, 'puute')">Puute</button>
+          </div>
         </div>
-        <div class="exp-row">
-          <span class="exp-label">Exp</span>
-          <ng-container *ngIf="!laake.expOpen">
-            <span *ngIf="laake.expMonth && laake.expYear" class="exp-value" (click)="toggleExpOpen(laake)">
-              {{ laake.expMonth }}/{{ laake.expYear }}
-            </span>
-            <span *ngIf="!laake.expMonth || !laake.expYear" class="exp-empty" (click)="toggleExpOpen(laake)">
-              Aseta päivä
-            </span>
-          </ng-container>
-          <ng-container *ngIf="laake.expOpen">
-            <select [(ngModel)]="laake.expMonth">
-              <option value="">KK</option>
-              <option value="1">01</option>
-              <option value="2">02</option>
-              <option value="3">03</option>
-              <option value="4">04</option>
-              <option value="5">05</option>
-              <option value="6">06</option>
-              <option value="7">07</option>
-              <option value="8">08</option>
-              <option value="9">09</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
+
+        <ng-container *ngIf="editMode">
+          <div class="edit-row">
+            <input class="nimi-input" [(ngModel)]="laake.nimi" placeholder="Nimi" />
+            <input class="min-input" type="number" [(ngModel)]="laake.minimimaara" placeholder="Min" />
+            <input class="muoto-input" [(ngModel)]="laake.muoto" placeholder="Muoto" />
+            <select [(ngModel)]="laake.mista">
+              <option value="asema">asema</option>
+              <option value="sairaala">sairaala</option>
             </select>
-            <select [(ngModel)]="laake.expYear">
-              <option value="">VVVV</option>
-              <option *ngFor="let year of expYears" [value]="year">{{ year }}</option>
-            </select>
-            <button (click)="clearExp(laake)">Tyhjennä</button>
-          </ng-container>
+            <button (click)="removeDrug(laake)">Poista</button>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="amount-right" *ngIf="laake.status === 'puute'; else spacer">
+        <div class="pm-col">
+          <button (click)="increaseAmount(laake)">+</button>
+          <button (click)="decreaseAmount(laake)">-</button>
         </div>
-        <div class="status-btns">
-          <button (click)="toggleStatus(laake, 'ok')">OK</button>
-          <button (click)="toggleStatus(laake, 'puute')">Puute</button>
-          <ng-container *ngIf="laake.status === 'puute'">
-            <button (click)="decreaseAmount(laake)">-</button>
-            <span class="tarvittava">{{ laake.tarvittava }}</span>
-            <button (click)="increaseAmount(laake)">+</button>
-          </ng-container>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="editMode">
-        <div class="edit-row">
-          <input class="nimi-input" [(ngModel)]="laake.nimi" placeholder="Nimi" />
-          <input class="min-input" type="number" [(ngModel)]="laake.minimimaara" placeholder="Min" />
-          <input class="muoto-input" [(ngModel)]="laake.muoto" placeholder="Muoto" />
-          <select [(ngModel)]="laake.mista">
-            <option value="asema">asema</option>
-            <option value="sairaala">sairaala</option>
-          </select>
-          <button (click)="removeDrug(laake)">Poista</button>
-        </div>
-      </ng-container>
+        <span class="tarvittava">{{ laake.tarvittava }}</span>
+      </div>
+      <ng-template #spacer><div class="amount-spacer"></div></ng-template>
     </div>
   </ng-container>
 
